@@ -1,25 +1,40 @@
 <!DOCTYPE html>
+<!-- Comments will be REAL basic, since I'm learning everything -->
 <html>
 <head>
+
+<!-- Sets title at top of window/tab -->
 <title>JavaScript/HTML Testing Ground</title>
+
 </head>
 <body>
 <h1 id="header">The beginning...</h1>
+
+<!-- p1 is empty right now, but gets filled in immediately via the first script block -->
 <p id="p1"></p>
+
+<!-- button runs continueStory() which toggles p1 between story and nextPart. Leaves button intact -->
 <button onclick="continueStory()">Continue?</button>
 
 <script>
+
+// vars cache story text
 var story = "There once, long ago, was a land called Spaloot. Spaloot had loot, and monsters to boot. Then down from the sky, like a bird what don't fly, fell a wrinkly and stinky old coot.";
 var nextPart = "No angel from heaven, the man was Guibert: A mage of ability without all the flaire. He dusted his rings, and collected his things, and started to walk over there.";
 var tmp = "";
 
+// initially populates p1 with story
 document.getElementById("p1").innerHTML=story;
 
+// is called by button
 function continueStory() 
 {
+	// next three lines swap story and nextPart
 	tmp = story;
 	story = nextPart;
 	nextPart = tmp;
+
+	// writes p1 again with story, which was just replaced with old nextPart
 	document.getElementById("p1").innerHTML=story;
 }
 </script>
