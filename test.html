@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript/HTML Testing Ground</title>
+</head>
+<body>
+<h1 id="header">The beginning...</h1>
+<p id="p1">There once, long ago, was a land called Spaloot. Spaloot had loot, and monsters to boot. Then down from the sky, like a bird what don't fly, fell a wrinkly and stinky old coot.</p>
+<button onclick="continueStory()">Continue?</button>
+
+<script>
+var story = "There once, long ago, was a land called Spaloot. Spaloot had loot, and monsters to boot. Then down from the sky, like a bird what don't fly, fell a wrinkly and stinky old coot.";
+var nextPart = "No angel from heaven, the man was Guibert: A mage of ability without all the flaire. He dusted his rings, and collected his things, and started to walk over there.";
+var tmp = "";
+
+document.getElementById("p1").innterHTML=story;
+
+function continueStory() 
+{
+	tmp = story;
+	story = nextPart;
+	nextPart = tmp;
+	document.getElementById("p1").innerHTML=story;
+}
+</script>
+
+</body>
+</html>
