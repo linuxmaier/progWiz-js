@@ -20,8 +20,9 @@ var LENGTH = 5; //const to set word list length
 var wordList = [] //contains spelling words
 var targetWord; //contains the word randomly chosen
 var guessWord; //contains current guess
-var wordSection = document.getElementById("dispWord");
-var playSection = document.getElementById("playArea");
+var wordSection = document.getElementById("dispWord"); //short cut to work with dispWord
+var playSection = document.getElementById("playArea"); //short cut to work with playArea
+var gButtonString = "<button id=\"guessButton\" onclick=\"enterGuess()\">Enter guess</button>"; //save html button code for guess button
 
 function enterWords () {
 
@@ -31,8 +32,17 @@ function enterWords () {
 		wordList[i]=g;
 	}
 
-	displayWords(); //clears wordlist and displays words in wordList
-	document.getElementById("enterButton").disabled=true;
+	createPlayArea();
+}
+
+function enterGuess () {
+	
+}
+
+function createPlayArea() { //prints word list and creates area for player to game in
+	displayWords(); //prints wordList
+
+	playSection.innerHTML = "Make your guess, if you dare! " + gButtonString;
 }
 
 function displayWords () {
@@ -44,6 +54,8 @@ function displayWords () {
 		wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
 
 	}
+
+	document.getElementById("enterButton").disabled=true; //disables enterButton
 }
 
 </script>
