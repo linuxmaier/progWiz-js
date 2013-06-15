@@ -11,9 +11,9 @@
 
 <h2 id="header2">And so the game...</h2>
 <p id="p2">Fill in your words by pressing this button: 
-<button id="enterButton" onclick="enterWords()">Go ahead...</button></p>
-<p id="dispWord"></p> <!-- Modified by displayWords() -->
-<p id="playArea"></p> <!-- Modified by createPlayArea() -->
+<button id="enterButton" onclick="enterWords()">Enter words</button></p>
+<p id="dispWord"></p> <!-- Modified by startGame() -->
+<p id="playArea"></p> <!-- Modified by startGame() -->
 <p id="verdict"></p> <!-- Modified by enterGuess() -->
 
 <script>
@@ -25,15 +25,31 @@ var wordSection = document.getElementById("dispWord"); //short cut to work with 
 var playSection = document.getElementById("playArea"); //short cut to work with playArea
 var verdictSection = document.getElementById("verdict"); //short cut to work with verdict
 var gButtonString = "<button id=\"guessButton\" onclick=\"enterGuess()\">Enter guess</button>"; //save html button code for guess button
+var nButtonString = "<button id=\"newGameButton\" onclick=\"startGame()\">Same words?</button>"; // html button code for new game button
+var eButtonString = "<button id=\"enterButton\" onclick=\"enterWords()\">Enter words</button>"; //save html button code for enter button
 
 function enterWords () {
-
 	//prompts user for LENGTH words to fill wordList
 	for (var i=0; i<LENGTH; ++i) {
 		wordList[i]=prompt("Enter word number " + (i+1)).toLowerCase();
 	}
+	
+	startGame();
+}
+
+function startGame() {
+	
 	targetWord = wordList[Math.floor(Math.random()*wordList.length)]; //picks a target word randomly
-	createPlayArea(); //generates play area
+	wordSection.innerHTML=""; //clears dispWord
+	verdictSection.innerHTML=""; //clears verdict
+	//prints wordList
+	for (var j=0; j<wordList.length; ++j) {
+		wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
+
+	}
+	document.getElementById("enterButton").disabled=true; //disables enterButton
+
+	playSection.innerHTML = "Make your guess, if you dare! " + gButtonString;
 }
 
 function enterGuess () {
@@ -48,29 +64,10 @@ function enterGuess () {
 		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess further down on the list if you want to save those hostages...";
 	}
 	else {
-		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! Did you cheat? How did you cheat?! I dare you to play again!"
-	document.getElementById("enterButton").disabled=false;
+		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
+		document.getElementById("enterButton").disabled=false;
 	}
 }
-
-function createPlayArea() { //prints word list and creates area for player to game in
-	displayWords(); //prints wordList
-
-	playSection.innerHTML = "Make your guess, if you dare! " + gButtonString;
-}
-
-function displayWords () {
- 
-	wordSection.innerHTML=""; //clears dispWord
-
-	//prints wordList
-	for (var j=0; j<wordList.length; ++j) {
-		wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
-
-	}
-	document.getElementById("enterButton").disabled=true; //disables enterButton
-}
-
 </script>
 </body>
 </html>
