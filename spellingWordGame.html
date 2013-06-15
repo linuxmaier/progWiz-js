@@ -15,9 +15,12 @@
 <p id="dispWord"></p> <!-- Modified by startGame() -->
 <p id="playArea"></p> <!-- Modified by startGame() -->
 <p id="verdict"></p> <!-- Modified by enterGuess() -->
+<div id="highScore" style="position: absolute; bottom: 0px;"></div>
 
 <script>
-var LENGTH = 5; //const to set word list length
+var LENGTH = 10; //const to set word list length
+var score = 500; //initial score per round.
+var sessionRecord = 0; //session record
 var wordList = [] //contains spelling words
 var targetWord; //contains the word randomly chosen
 var guessWord; //contains current guess
@@ -39,6 +42,7 @@ function enterWords () {
 
 function startGame() {
 	
+	score = 500;
 	targetWord = wordList[Math.floor(Math.random()*wordList.length)]; //picks a target word randomly
 	wordSection.innerHTML=""; //clears dispWord
 	verdictSection.innerHTML=""; //clears verdict
@@ -64,9 +68,13 @@ function enterGuess () {
 		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess further down on the list if you want to save those hostages...";
 	}
 	else {
-		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
+		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! You scored " + score + "! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
 		document.getElementById("enterButton").disabled=false;
+		if (score > sessionRecord) sessionRecord = score;
+		document.getElementById("highScore").innerHTML="High score for this session is " + sessionRecord + ".";
+		return;
 	}
+	score -= 50;
 }
 </script>
 </body>
