@@ -12,8 +12,9 @@
 <h2 id="header2">And so the game...</h2>
 <p id="p2">Fill in your words by pressing this button: 
 <button id="enterButton" onclick="enterWords()">Go ahead...</button></p>
-<p id="dispWord"></p>
-<p id="playArea"></p>
+<p id="dispWord"></p> <!-- Modified by displayWords() -->
+<p id="playArea"></p> <!-- Modified by createPlayArea() -->
+<p id="verdict"></p> <!-- Modified by enterGuess() -->
 
 <script>
 var LENGTH = 5; //const to set word list length
@@ -22,21 +23,34 @@ var targetWord; //contains the word randomly chosen
 var guessWord; //contains current guess
 var wordSection = document.getElementById("dispWord"); //short cut to work with dispWord
 var playSection = document.getElementById("playArea"); //short cut to work with playArea
+var verdictSection = document.getElementById("verdict"); //short cut to work with verdict
 var gButtonString = "<button id=\"guessButton\" onclick=\"enterGuess()\">Enter guess</button>"; //save html button code for guess button
 
 function enterWords () {
 
 	//prompts user for LENGTH words to fill wordList
 	for (var i=0; i<LENGTH; ++i) {
-		var g=prompt("Enter word number " + (i+1));
-		wordList[i]=g;
+		wordList[i]=prompt("Enter word number " + (i+1)).toLowerCase();
 	}
-
-	createPlayArea();
+	targetWord = wordList[Math.floor(Math.random()*wordList.length)]; //picks a target word randomly
+	createPlayArea(); //generates play area
 }
 
 function enterGuess () {
-	
+	guessWord = prompt("Which word am I thinking of?").toLowerCase();
+	if (wordList.indexOf(guessWord)<0) {
+		alert("You either spelled your guess wrong, or didn't pick a word off the list. Fie upon you!");
+	}
+	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) > 0 ) {
+		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess higher up on the list if you want to save those hostages...";
+	}
+	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) < 0 ) {
+		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess further down on the list if you want to save those hostages...";
+	}
+	else {
+		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! Did you cheat? How did you cheat?! I dare you to play again!"
+	document.getElementById("enterButton").disabled=false;
+	}
 }
 
 function createPlayArea() { //prints word list and creates area for player to game in
@@ -54,7 +68,6 @@ function displayWords () {
 		wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
 
 	}
-
 	document.getElementById("enterButton").disabled=true; //disables enterButton
 }
 
