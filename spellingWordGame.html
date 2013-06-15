@@ -9,9 +9,9 @@
 
 <p id="p1">This is the SpellingWordGame, and it means business. Well, really it means education, or more literally it means that it is a game for spelling words... I'll start again. This is the SpellingWordGame, and you will have to guess what word I'm thinking of! There, got it that time. Anyway, you give me ten words, then I pick one at random. Then you have to guess what word I'm thinking of. Get it right, and you win. Get it wrong, and I start killing hostages. Kidding! I take points away. Lose all your points, <b>then</b> I kill the hostages. So, get to it!<br><br></p>
 
-<h2 id="header2">So to the game...</h2>
-<p id="p2">Fill in your words by pressing the button below</p>
-<button id="button1" onclick="enterWords()">Go ahead...</button>
+<h2 id="header2">And so the game...</h2>
+<p id="p2">Fill in your words by pressing this button: 
+<button id="button1" onclick="enterWords()">Go ahead...</button></p>
 <p id="dispWord"></p>
 
 <script>
@@ -20,10 +20,17 @@ var targetWord; //contains the word randomly chosen
 var guessWord; //contains current guess
 var wordSection = document.getElementById("dispWord");
 
-function displayWords () {
-
-for (var i=0; i<wordList.length; ++i;) {
+function enterWords () {
 	
 
+function displayWords () { //clears the dispWord p section, then writes it over with the contents of WordList
+
+wordSection.innerHTML = ""; //clears existing dispWord content
+
+//prints wordList's contents to dispWord
+for (var i=0; i<wordList.length; ++i;) {
+	wordSection.innerHTML += i+1 + "): " + wordList[i] + "<br>"; //writes the number + 1 of the array index, writes the current word in wordList and then starts a new line
+	}
+}
 </body>
 </html>
