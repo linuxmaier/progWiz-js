@@ -11,8 +11,9 @@
 
 <h2 id="header2">And so the game...</h2>
 <p id="p2">Fill in your words by pressing this button: 
-<button onclick="enterWords()">Go ahead...</button></p>
+<button id="enterButton" onclick="enterWords()">Go ahead...</button></p>
 <p id="dispWord"></p>
+<p id="playArea"></p>
 
 <script>
 var LENGTH = 5; //const to set word list length
@@ -20,6 +21,7 @@ var wordList = [] //contains spelling words
 var targetWord; //contains the word randomly chosen
 var guessWord; //contains current guess
 var wordSection = document.getElementById("dispWord");
+var playSection = document.getElementById("playArea");
 
 function enterWords () {
 
@@ -30,6 +32,7 @@ function enterWords () {
 	}
 
 	displayWords(); //clears wordlist and displays words in wordList
+	document.getElementById("enterButton").disabled=true;
 }
 
 function displayWords () {
