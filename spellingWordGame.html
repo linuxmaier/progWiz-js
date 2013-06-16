@@ -15,10 +15,10 @@
 <p id="dispWord"></p> <!-- Modified by startGame() -->
 <p id="playArea"></p> <!-- Modified by startGame() -->
 <p id="verdict"></p> <!-- Modified by enterGuess() -->
-<div id="highScore" style="position: absolute; bottom: 0px;"></div>
+<div id="highScore" style="position: absolute; bottom: 0px;"></div> <!-- Modified by enterGuess() -->
 
 <script>
-var LENGTH = 10; //const to set word list length
+var LENGTH = 5; //const to set word list length
 var score = 500; //initial score per round.
 var sessionRecord = 0; //session record
 var wordList = [] //contains spelling words
@@ -42,7 +42,7 @@ function enterWords () {
 
 function startGame() {
 	
-	score = 500;
+	score = 500; //resets high score
 	targetWord = wordList[Math.floor(Math.random()*wordList.length)]; //picks a target word randomly
 	wordSection.innerHTML=""; //clears dispWord
 	verdictSection.innerHTML=""; //clears verdict
@@ -51,28 +51,33 @@ function startGame() {
 		wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
 
 	}
-	document.getElementById("enterButton").disabled=true; //disables enterButton
+	document.getElementById("enterButton").disabled=true; //disables enterButton during game
 
-	playSection.innerHTML = "Make your guess, if you dare! " + gButtonString;
+	playSection.innerHTML = "Make your guess, if you dare! " + gButtonString; //creates guess button
 }
 
 function enterGuess () {
-	guessWord = prompt("Which word am I thinking of?").toLowerCase();
+	guessWord = prompt("Which word am I thinking of?").toLowerCase(); //lower cases guess
 	if (wordList.indexOf(guessWord)<0) {
+		//word not in wordList. inform player
 		alert("You either spelled your guess wrong, or didn't pick a word off the list. Fie upon you!");
 	}
 	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) > 0 ) {
+		//word higher up on list. inform player
 		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess higher up on the list if you want to save those hostages...";
 	}
 	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) < 0 ) {
+		//word lower down on list. inform player
 		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess further down on the list if you want to save those hostages...";
 	}
 	else {
+		//victory. congratulate player, re-enable button to put in new words, disable guess button, offer new button to play again using old words, updates sessionRecord if score beats it, writes record at bottom of page
 		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! You scored " + score + "! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
 		document.getElementById("enterButton").disabled=false;
+		document.getElementById("guessButton").disabled=true;
 		if (score > sessionRecord) sessionRecord = score;
 		document.getElementById("highScore").innerHTML="High score for this session is " + sessionRecord + ".";
-		return;
+		return; //so that the score isn't subtracted
 	}
 	score -= 50;
 }
