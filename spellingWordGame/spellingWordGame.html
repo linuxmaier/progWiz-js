@@ -20,6 +20,7 @@
 
 <script>
 var LENGTH = 10; //const to set word list length
+var surprise; //surprise!
 var score = 500; //initial score per round.
 var sessionRecord = 0; //session record
 var wordList = [] //contains spelling words
@@ -43,18 +44,29 @@ function enterWords () {
 
 function startGame() {
 	
+	surprise = Math.floor(Math.random()*5);
 	score = 500; //resets high score
 	targetWord = wordList[Math.floor(Math.random()*wordList.length)]; //picks a target word randomly
 	wordSection.innerHTML=""; //clears dispWord
 	verdictSection.innerHTML=""; //clears verdict
-	//prints wordList
-	for (var j=0; j<wordList.length; ++j) {
-		wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
-
+	//prints wordList or... mystery
+	if (surprise == 1) {
+		for (var j=0; j<wordList.length; ++j) {
+			wordSection.innerHTML += (1+j) + "): " + "mystery<br>";
+		}
+	}
+	else {
+		for (var j=0; j<wordList.length; ++j) {
+			wordSection.innerHTML += (1+j) + "): " + wordList[j]+"<br>";
+		}
 	}
 	document.getElementById("enterButton").disabled=true; //disables enterButton during game
 
 	playSection.innerHTML = "Make your guess, if you dare! " + gButtonString; //creates guess button
+	
+	if (surprise == 1) {
+		playSection.innerHTML += "<br><br><br><button id=\"failButton\" onclick=\"startGame()\">Haha, give up?</button>";
+	}
 }
 
 function enterGuess () {
@@ -63,15 +75,8 @@ function enterGuess () {
 		//word not in wordList. inform player
 		alert("You either spelled your guess wrong, or didn't pick a word off the list. Fie upon you!");
 	}
-	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) > 0 ) {
-		//word higher up on list. inform player
-		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess higher up on the list if you want to save those hostages...";
-	}
-	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) < 0 ) {
-		//word lower down on list. inform player
-		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess further down on the list if you want to save those hostages...";
-	}
-	else {
+	else if (guessWord == targetWord) {
+		
 		//victory. congratulate player, re-enable button to put in new words, disable guess button, offer new button to play again using old words, updates sessionRecord if score beats it, writes record at bottom of page
 		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! You scored " + score + "! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
 		document.getElementById("enterButton").disabled=false;
@@ -79,6 +84,14 @@ function enterGuess () {
 		if (score > sessionRecord) sessionRecord = score;
 		document.getElementById("highScore").innerHTML="High score for this session is " + sessionRecord + ".";
 		return; //so that the score isn't subtracted
+	}
+	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) > 0 ) {
+		//word higher up on list. inform player
+		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess higher up on the list if you want to save those hostages...";
+	}
+	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) < 0 ) {
+		//word lower down on list. inform player
+		verdict.innerHTML = "<b>" + guessWord + "</b>? Nope! You'll want to guess further down on the list if you want to save those hostages...";
 	}
 	score -= 50;
 }
