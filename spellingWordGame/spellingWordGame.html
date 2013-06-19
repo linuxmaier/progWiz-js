@@ -3,6 +3,16 @@
 <head>
 <title>SpellingWordGame</title>
 <link rel="stylesheet" type="text/css" href="spellingstyle.css">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40741856-1', 'mcmaier-expedition.com');
+  ga('send', 'pageview');
+
+</script>
 </head>
 
 <body>
@@ -34,12 +44,14 @@ var gButtonString = "<button id=\"guessButton\" onclick=\"enterGuess()\">Enter g
 var nButtonString = "<button id=\"newGameButton\" onclick=\"startGame()\">Same words?</button>"; // html button code for new game button
 var eButtonString = "<button id=\"enterButton\" onclick=\"enterWords()\">Enter words</button>"; //save html button code for enter button
 
+document.getElementById("enterButton").focus();
+
 function enterWords () {
 	//prompts user for LENGTH words to fill wordList
 	for (var i=0; i<LENGTH; ++i) {
 		wordList[i]=prompt("Enter word number " + (i+1)).toLowerCase();
 	}
-	
+		
 	startGame();
 }
 
@@ -68,6 +80,7 @@ function startGame() {
 	if (surprise == 1) {
 		playSection.innerHTML += "<br><br><br><button id=\"failButton\" onclick=\"startGame()\">Haha, give up?</button>";
 	}
+	document.getElementById("guessButton").focus(); //sets focus to guess button
 }
 
 function enterGuess () {
@@ -79,7 +92,8 @@ function enterGuess () {
 	else if (guessWord == targetWord) {
 		
 		//victory. congratulate player, re-enable button to put in new words, disable guess button, offer new button to play again using old words, updates sessionRecord if score beats it, writes record at bottom of page
-		verdict.innerHTML = "What the... You guessed " + targetWord + "! That was my word! You scored " + score + "! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
+		verdict.innerHTML = "What the... You guessed <b>" + targetWord + "</b>! That was my word! You scored <b>" + score + "</b>! Did you cheat? How did you cheat?! I dare you to play again! " + nButtonString
+		document.getElementById("newGameButton").focus(); //sets focus to newGameButton
 		document.getElementById("enterButton").disabled=false;
 		document.getElementById("guessButton").disabled=true;
 		if (score > sessionRecord) sessionRecord = score;
