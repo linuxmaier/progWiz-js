@@ -22,6 +22,7 @@
 var LENGTH = 10; //const to set word list length
 var surprise; //surprise!
 var score = 500; //initial score per round.
+var runningScore = 0; //keeps track of total score for session
 var sessionRecord = 0; //session record
 var wordList = [] //contains spelling words
 var targetWord; //contains the word randomly chosen
@@ -82,7 +83,8 @@ function enterGuess () {
 		document.getElementById("enterButton").disabled=false;
 		document.getElementById("guessButton").disabled=true;
 		if (score > sessionRecord) sessionRecord = score;
-		document.getElementById("highScore").innerHTML="High score for this session is " + sessionRecord + ".";
+		runningScore += score;
+		document.getElementById("highScore").innerHTML="High score for this session is " + sessionRecord + ". The running total is " + runningScore + "."; //shows high score and running score at bottom of screen
 		return; //so that the score isn't subtracted
 	}
 	else if ((wordList.indexOf(guessWord) - wordList.indexOf(targetWord)) > 0 ) {
